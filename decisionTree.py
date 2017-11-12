@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-
-
 import math
+from xml.etree.ElementTree import Element, SubElement, Comment, tostring
+
 
 #Calculates the entropy of the given data set for the target attr
 def entropy(attributes, data, targetAttr):
@@ -19,7 +19,7 @@ def entropy(attributes, data, targetAttr):
     
     # Calculate the frequency of each of the values in the target attribute
     for entry in data:
-        if (valFreq.__contains__(entry[i])):
+        if (entry[i] in valFreq):
             valFreq[entry[i]] += 1.0
         else:
             valFreq[entry[i]]  = 1.0
@@ -43,7 +43,7 @@ def gain(attributes, data, attr, targetAttr):
 
     # Calculate the frequency of each of the values in the target attribute
     for entry in data:
-        if (valFreq.__contains__(entry[i])):
+        if (entry[i] in valFreq):
             valFreq[entry[i]] += 1.0
         else:
             valFreq[entry[i]]  = 1.0
@@ -79,7 +79,7 @@ def majority(data, attributes, target):
     index = attributes.index(target)
     #calculate frequency of values in target attr
     for tuple in data:
-        if (valFreq.__contains__(tuple[index])):
+        if (tuple[index] in valFreq):
             valFreq[tuple[index]] += 1 
         else:
             valFreq[tuple[index]] = 1
@@ -100,22 +100,21 @@ def majority(data, attributes, target):
 #             puts it into a list      #
 ########################################
 def readInputFile(file):
-    data = [[]]
+    data = []
     for line in file:
         line = line.strip("\r\n")
         data.append(line.split(","))
-    data.remove([])
     file.close()
     return data
 
 
-#############################
+###############################
 #Name:getExamples
 #
 #
 ###############################
 def getExamples(data, attributes, best, val):
-    examples = [[]]
+    examples = []
     index = attributes.index(best)
     for entry in data:
         #find entries with the give value
@@ -126,7 +125,6 @@ def getExamples(data, attributes, best, val):
                 if(i != index):
                     newEntry.append(entry[i])
             examples.append(newEntry)
-    examples.remove([])
     return examples
 
 ###############################
@@ -148,7 +146,7 @@ def getValues(data,attributes,bestAttr):
 #                                          #
 ############################################
 def createTree(data,attributes,target,recur):
-    recur+=recur
+    recur= recur + 1
     #print(target)
     #print(attributes[6])
     #Copy of the list into a new list
@@ -158,6 +156,8 @@ def createTree(data,attributes,target,recur):
         vals = record[attributes.index(target)]
         
     default = majority(copy,attributes,target)
+    
+    
     
     
     #If the dataset is empty or does not contain attributes then return a default value
