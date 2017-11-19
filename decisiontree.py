@@ -2,7 +2,7 @@
 
 '''
 
-    File name: DecisionTree.py
+    File name: decisiontree.py
 
     Team Members: 
         Nikhil Murthy (220641)
@@ -122,7 +122,7 @@ def majority(data, attributes, target):
 def readInputFile():
     data = []
     try:
-        file = open('car.txt','r')
+        file = open('car.data','r')
         for line in file:
             line = line.strip("\r\n")
             data.append(line.split(","))
@@ -174,8 +174,7 @@ def getValues(data,attributes,bestAttr):
             val.append(line[index]) 
     return val
 
-#   createtree method:In this if its the executing for the first time then we create a root node the we 
-#    recursively call the gain method to for the sub-root 
+#   createtree method: This method will take in the data, attributes and target to make decision based on the gain value returned in chooseAttribute() method
 
 def createTree(data,attributes,target,recur):
     
@@ -212,7 +211,7 @@ def createTree(data,attributes,target,recur):
     elif(vals.count(vals[0]) == len(vals)):
         return vals[0]
 
-    #Here we creating sub node to the parent node with attribute which has highest information gain
+    #Here we are creating sub node to the parent node with attribute which has highest information gain
     else:
         #Choose the best attribute 
         bestAttr = chooseAttribute(copy,attributes,target)
@@ -246,7 +245,7 @@ def createTree(data,attributes,target,recur):
             else:
                 for child in subtree:
                     node.append(child)
-            #At the end, add the root(<tree>) at the top.
+            #At the end, add the root(<tree>) at the top
             if recur == 1:
                 tree.append(node)
     
